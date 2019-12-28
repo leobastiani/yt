@@ -1,0 +1,29 @@
+{
+  "name": "yt",
+  "version": "1.0.0",
+  "description": "Copy a video URL and executes yt to download it",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leobastiani/yt.git"
+  },
+  "author": "Leonardo Guarnieri de Bastiani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leobastiani/yt/issues"
+  },
+  "homepage": "https://github.com/leobastiani/yt#readme",
+  "directories": {
+    "bin": "./bin"
+  },
+  "dependencies": {
+    "clipboardy": "latest",
+    "docopt": "latest",
+    "execa": "latest",
+    "glob": "latest"
+  }
+}
