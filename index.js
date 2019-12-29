@@ -7,9 +7,11 @@ module.exports = (argv = process.argv) => {
   doc = `Usage:
   ${execname} [options] [<urls> ...]
 Options:
-  -h --help        Show this screen.
-  -d --debug       Debug mode.
-  -a --audio-only  Downloads audio only.
+  -h --help            Show this screen.
+  -d --debug           Debug mode.
+  -a --audio-only      Downloads audio only.
+  -r --resolution=<r>  Video resolution [default: 720p].
+  -e --ext=<e>         Video extension [default: mp4].
 `;
   const arguments = docopt(doc, { argv: argv.slice(2) });
   const DEBUG = arguments['--debug'];
@@ -31,31 +33,20 @@ Options:
     process.chdir(`${process.env.USERPROFILE}\\Desktop`);
   }
 
+  const resolution = parseInt(arguments['--resolution']);
+  const ext = arguments['--ext'];
   for(const url of urls) {
     execa.sync(
       `youtube-dl`,
       [
-        '-f',
-        `"${arguments['--audio-only'] ? 'bestaudio[ext=m4a]' : 'best[height<=720][ext=mp4]'}"`,
+        arguments['--audio-only']
+          ? '--extract-audio --audio-format mp3'
+          : `-f "best[height<=${resolution}][ext=${ext}]"`,
         "--output",
         `"%(title)s.%(ext)s"`,
         `"${url}"`,
       ],
       { shell: true, stdio: ['inherit', 'inherit', 'inherit'] }
     );
-  }
-
-  if(arguments['--audio-only']) {
-    const glob = require('glob');
-    for(const m4a of glob.sync('*.m4a')) {
-      const ext = path.extname(m4a);
-      const mp3 = `${path.basename(m4a, ext)}.mp3`;
-      if(!fs.existsSync(mp3)) {
-        execa.sync(
-          `ffmpeg -i "${m4a}" -codec:a libmp3lame -q:a 2 -vn "${mp3}"`,
-          { shell: true, stdio: ['inherit', 'inherit', 'inherit'] }
-        );
-      }
-    }
   }
 };
