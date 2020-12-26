@@ -3,6 +3,7 @@ module.exports = (argv = process.argv) => {
   const path = require("path");
   const { docopt } = require("docopt");
   const execname = path.basename(argv[1]);
+  const validUrl = require("valid-url");
   doc = `Usage:
   ${execname} [options] [<urls> ...]
 Options:
@@ -11,7 +12,7 @@ Options:
   --dry-run            Does not download any content.
   -a --audio-only      Downloads audio only.
   -r --resolution=<r>  Video resolution [default: 720p].
-  -e --ext=<e>         Video extension [default: mp4].
+  -e --ext=<e>         Video extension.
 `;
   const arguments = docopt(doc, { argv: argv.slice(2) });
   const DEBUG = arguments["--debug"];
@@ -47,13 +48,14 @@ Options:
 
   const resolution = parseInt(arguments["--resolution"]);
   const ext = arguments["--ext"];
-  for (const url of urls) {
-    execa.sync(
+  for (const url of urls.filter(validUrl.isWebUri)) {
+    const extYtdlArg = ext ? `[ext=${ext}]` : "";
+    execa(
       `youtube-dl`,
       [
         arguments["--audio-only"]
           ? "--extract-audio --audio-format mp3"
-          : `-f "best[height<=${resolution}][ext=${ext}]"`,
+          : `-f "best[height<=${resolution}]${extYtdlArg}"`,
         "--output",
         `"%(title)s.%(ext)s"`,
         `"${url}"`,
@@ -62,3 +64,7 @@ Options:
     );
   }
 };
+
+if (require.main === module) {
+  module.exports();
+}

@@ -24,6 +24,7 @@
     "clipboardy": "latest",
     "docopt": "latest",
     "execa": "latest",
-    "glob": "latest"
+    "glob": "latest",
+    "valid-url": "latest"
   }
 }
