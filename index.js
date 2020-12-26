@@ -9,6 +9,7 @@ module.exports = (argv = process.argv) => {
 Options:
   -h --help            Show this screen.
   -d --debug           Debug mode.
+  --dry-run            Does not download any content.
   -a --audio-only      Downloads audio only.
   -r --resolution=<r>  Video resolution [default: 720p].
   -e --ext=<e>         Video extension [default: mp4].
