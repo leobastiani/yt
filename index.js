@@ -1,5 +1,4 @@
 module.exports = (argv = process.argv) => {
-  const execa = require("execa");
   const fs = require("fs");
   const path = require("path");
   const { docopt } = require("docopt");
@@ -16,8 +15,20 @@ Options:
 `;
   const arguments = docopt(doc, { argv: argv.slice(2) });
   const DEBUG = arguments["--debug"];
+  const DRY_RUN = arguments["--dry-run"];
   const debug = DEBUG ? console.debug : () => {};
   debug({ arguments });
+
+  function execa(...args) {
+    if (DEBUG || DRY_RUN) {
+      console.log("execa:", args);
+    }
+    if (DRY_RUN) {
+      return;
+    }
+
+    return require("execa").sync(...args);
+  }
 
   const urls = arguments["<urls>"].length
     ? arguments["<urls>"]
