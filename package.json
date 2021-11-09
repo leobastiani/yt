@@ -1,6 +1,6 @@
 {
   "name": "yt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Copy a video URL and executes yt to download it",
   "main": "index.js",
   "scripts": {
