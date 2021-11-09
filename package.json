@@ -1,6 +1,6 @@
 {
   "name": "yt",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Copy a video URL and executes yt to download it",
   "main": "index.js",
   "scripts": {
@@ -21,10 +21,10 @@
     "bin": "./bin"
   },
   "dependencies": {
-    "clipboardy": "latest",
-    "docopt": "latest",
-    "execa": "latest",
-    "glob": "latest",
-    "valid-url": "latest"
+    "clipboardy": "^2.1.0",
+    "docopt": "^0.6.2",
+    "execa": "^4.0.0",
+    "glob": "^7.1.6",
+    "valid-url": "^1.0.9"
   }
 }
